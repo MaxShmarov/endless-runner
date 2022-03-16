@@ -1,4 +1,4 @@
-using EndlessRunner.Common;
+using EndlessRunner.GameLogic;
 using EndlessRunner.Interfaces;
 using UnityEngine;
 

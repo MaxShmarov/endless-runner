@@ -1,6 +1,6 @@
 using System;
 
-namespace EndlessRunner.Common
+namespace EndlessRunner
 {
     [Serializable]
     public struct MinMaxValue

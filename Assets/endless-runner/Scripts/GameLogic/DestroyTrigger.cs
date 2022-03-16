@@ -1,7 +1,7 @@
 using EndlessRunner.Interfaces;
 using UnityEngine;
 
-namespace EndlessRunner.Common
+namespace EndlessRunner.GameLogic
 {
     public class DestroyTrigger : MonoBehaviour
     {

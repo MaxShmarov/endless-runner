@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace EndlessRunner.Common
+namespace EndlessRunner.GameLogic
 {
     public class Movement
     {

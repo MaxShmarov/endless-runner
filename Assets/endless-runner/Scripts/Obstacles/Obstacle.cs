@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace EndlessRunner.Obstacles
 {
-    public class Obstacle : MonoBehaviour, IActivable, IDestroyable<Obstacle>
+    public class Obstacle : MonoBehaviour, IActivable, IDestroyable<Obstacle>, IObstacle
     {
         public event Action<Obstacle> Destroyed;
         public ObstacleType Type { get; private set; } = ObstacleType.None;
@@ -57,6 +57,11 @@ namespace EndlessRunner.Obstacles
             }
 
             _meshRenderer.material.color = color;
+        }
+
+        public void Collect()
+        {
+            DestroyThis();
         }
     }
 }

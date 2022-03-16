@@ -1,4 +1,5 @@
 using EndlessRunner.Blocks;
+using EndlessRunner.Controller;
 using EndlessRunner.Interfaces;
 using EndlessRunner.Levels;
 using EndlessRunner.Obstacles;
@@ -6,6 +7,7 @@ using EndlessRunner.UI;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace EndlessRunner.GameLogic
 {
@@ -13,6 +15,7 @@ namespace EndlessRunner.GameLogic
     {
         [SerializeField] private BlockSystem _blockSystem;
         [SerializeField] private ObstacleSystem _obstacleSystem;
+        [SerializeField] private InputSystem _inputSystem;
         [SerializeField] private Player _player;
         [SerializeField] private MainWindow _ui;
         [SerializeField] private LevelConfig _levels;
@@ -24,8 +27,10 @@ namespace EndlessRunner.GameLogic
 
         private IEnumerator Start()
         {
+            _inputSystem.Moveable = _player;
+
             _systemRunner = new SystemRunner();
-            _systemRunner.Initialize(new ISystem[] { _blockSystem, _obstacleSystem });
+            _systemRunner.Initialize(new ISystem[] { _inputSystem, _blockSystem, _obstacleSystem });
 
             yield return null;
 
@@ -79,17 +84,16 @@ namespace EndlessRunner.GameLogic
             {
                 _running = false;
 
-                FinishLoop();
+                _ui.ShowRestartButton();
+                _ui.RestartClick += OnRestartButtonClick;
             }
         }
 
-        private void FinishLoop()
+        private void OnRestartButtonClick()
         {
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
+            _ui.RestartClick -= OnRestartButtonClick;
+
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
         private void OnDestroy()

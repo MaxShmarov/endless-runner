@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace EndlessRunner.GameLogic
 {
-    public class Player : MonoBehaviour, IPlayer
+    public class Player : MonoBehaviour, IPlayer, IMoveable
     {
         public event Action<int> HealthChanged;
         public event Action<int> ScoreChanged;
@@ -31,6 +31,8 @@ namespace EndlessRunner.GameLogic
                 ScoreChanged?.Invoke(_currentScore);
             }
         }
+
+        public Transform Transform => transform;
 
         public void Initialize()
         {

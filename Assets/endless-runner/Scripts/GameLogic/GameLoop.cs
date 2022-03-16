@@ -3,6 +3,7 @@ using EndlessRunner.Interfaces;
 using EndlessRunner.Levels;
 using EndlessRunner.Obstacles;
 using EndlessRunner.UI;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -31,6 +32,13 @@ namespace EndlessRunner.GameLogic
             _player.HealthChanged += OnHealthChanged;
             _player.ScoreChanged += OnScoreChanged;
             _player.Initialize();
+
+            _ui.StartClick += OnStartClicked;
+        }
+
+        private void OnStartClicked()
+        {
+            _ui.StartClick -= OnStartClicked;
 
             _running = true;
         }

@@ -4,5 +4,6 @@ namespace EndlessRunner.Interfaces
     {
         void Initialize();
         void Run();
+        void Modify(float modificator);
     }
 }

@@ -1,9 +1,9 @@
 using EndlessRunner.Blocks;
 using EndlessRunner.Interfaces;
+using EndlessRunner.Levels;
 using EndlessRunner.Obstacles;
 using EndlessRunner.UI;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace EndlessRunner.GameLogic
@@ -14,22 +14,17 @@ namespace EndlessRunner.GameLogic
         [SerializeField] private ObstacleSystem _obstacleSystem;
         [SerializeField] private Player _player;
         [SerializeField] private MainWindow _ui;
+        [SerializeField] private LevelConfig _levels;
 
-        private List<ISystem> _systems;
+        private SystemRunner _systemRunner;
+        private Level _currentLevel;
 
         private bool _running;
 
         private IEnumerator Start()
         {
-            _systems = new List<ISystem>();
-
-            _systems.Add(_blockSystem);
-            _systems.Add(_obstacleSystem);
-
-            for (int i = 0; i < _systems.Count; i++)
-            {
-                _systems[i].Initialize();
-            }
+            _systemRunner = new SystemRunner();
+            _systemRunner.Initialize(new ISystem[] { _blockSystem, _obstacleSystem });
 
             yield return null;
 
@@ -44,15 +39,28 @@ namespace EndlessRunner.GameLogic
         {
             if (!_running) { return; }
 
-            for (int i = 0; i < _systems.Count; i++)
-            {
-                _systems[i].Run();
-            }
+            _systemRunner.Run();
         }
 
         private void OnScoreChanged(int score)
         {
             _ui.UpdateScore(score);
+
+            if (_currentLevel != null)
+            {
+                if (score >= _currentLevel.maxScore)
+                    UpdateLevel(_levels.GetNextLevel(_currentLevel.id));
+            }
+            else
+            {
+                UpdateLevel(_levels.GetStartingLevel());
+            }
+        }
+
+        private void UpdateLevel(Level level)
+        {
+            _currentLevel = level;
+            _systemRunner.Modify(_currentLevel.speedModificator);
         }
 
         private void OnHealthChanged(int health)

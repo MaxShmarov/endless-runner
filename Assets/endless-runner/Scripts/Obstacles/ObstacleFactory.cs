@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace EndlessRunner.Obstacles
 {
-    [CreateAssetMenu(fileName = "ObstacleFactory", menuName = "New obstacle factory")]
+    [CreateAssetMenu(fileName = "Obstacle factory", menuName = "New obstacle factory")]
     public class ObstacleFactory : Factory<Obstacle>
     {
     }

@@ -13,7 +13,7 @@ namespace EndlessRunner.Obstacles
         [SerializeField] private MinMaxValue _offsetByX;
         [SerializeField] private MinMaxValue _offsetByZ;
 
-        private Movement _mover;
+        private IRunner _runner;
 
         public void Initialize()
         {
@@ -25,12 +25,17 @@ namespace EndlessRunner.Obstacles
             var generator = new ObstacleGenerator(pool, _minimumSize, _offsetByX, _offsetByZ);
             generator.Generate();
 
-            _mover = new Movement(transform, _speed);
+            _runner = new Movement(transform, _speed);
+        }
+
+        public void Modify(float modificator)
+        {
+            _runner?.ApplyModificator(modificator);
         }
 
         public void Run()
         {
-            _mover?.Update();
+            _runner?.Run();
         }
     }
 }

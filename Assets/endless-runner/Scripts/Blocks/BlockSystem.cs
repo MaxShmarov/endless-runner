@@ -11,7 +11,7 @@ namespace EndlessRunner.Blocks
         [SerializeField] private int _poolCapacity;
         [SerializeField] private float _speed;
 
-        private Movement _mover;
+        private IRunner _runner;
 
         public void Initialize()
         {
@@ -23,12 +23,17 @@ namespace EndlessRunner.Blocks
             var generator = new BlocksGenerator(pool, _minimumWaySize);
             generator.Generate();
 
-            _mover = new Movement(transform, _speed);
+            _runner = new Movement(transform, _speed);
+        }
+
+        public void Modify(float modificator)
+        {
+            _runner?.ApplyModificator(modificator);
         }
 
         public void Run()
         {
-            _mover?.Update();
+            _runner?.Run();
         }
     }
 }

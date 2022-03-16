@@ -1,8 +1,9 @@
+using EndlessRunner.Interfaces;
 using UnityEngine;
 
 namespace EndlessRunner.GameLogic
 {
-    public class Movement
+    public class Movement : IRunner
     {
         private Transform _transform;
         private float _speed;
@@ -13,8 +14,6 @@ namespace EndlessRunner.GameLogic
         {
             _transform = transform;
             _speed = speed;
-
-            Modificator = 1;
         }
 
         public void ApplyModificator(float modificator)
@@ -22,7 +21,7 @@ namespace EndlessRunner.GameLogic
             Modificator = modificator;
         }
 
-        public void Update()
+        public void Run()
         {
             if (_transform == null) { return; }
 

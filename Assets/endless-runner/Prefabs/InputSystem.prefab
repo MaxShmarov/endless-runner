@@ -43,4 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75c88208e176dcf4b975f8dbf851708d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sensitivity: 0.03
+  _speed: 0.03
+  _offset:
+    min: -1.75
+    max: 1.75

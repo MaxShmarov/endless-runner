@@ -1,3 +1,4 @@
+using EndlessRunner.Common;
 using UnityEngine;
 
 namespace EndlessRunner.Blocks
@@ -6,11 +7,11 @@ namespace EndlessRunner.Blocks
     {
         private void OnTriggerEnter(Collider other)
         {
-            var block = other.transform.parent.GetComponent<Block>();
+            var block = other.transform.parent.GetComponent<DestroyTrigger>();
 
             if (block != null)
             {
-                block.DestroyThis();
+                block.Destroyable.DestroyThis();
             }
         }
     }

@@ -1,51 +1,26 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using EndlessRunner.Common;
 using UnityEngine;
 
 namespace EndlessRunner.Blocks
 {
-    public class BlocksGenerator
+    public class BlocksGenerator : Generator<Block>
     {
-        private BlockPool _pool;
-        private int _minimumSize;
-        private List<Block> _way = new List<Block>();
-
-        public BlocksGenerator(BlockPool pool, int minimumSize)
+        public BlocksGenerator(Pool<Block> pool, int minimalCount) : base(pool, minimalCount)
         {
-            _pool = pool;
-            _minimumSize = minimumSize;
         }
 
-        public void Generate()
+        protected override void SetItemPosition(Block item, int index)
         {
-            while (_way.Count < _minimumSize)
+            if (_activeItems.Count > 1)
             {
-                var block = _pool.Get();
-                block.SetActive(true);
-                block.Destroyed += OnBlockDestroyed;
+                var previous = _activeItems[index - 1];
+                var newPosition = new Vector3(
+                    previous.transform.position.x, 
+                    previous.transform.position.y,
+                    previous.transform.position.z + previous.Size);
 
-                if (_way.Count > 0)
-                {
-                    MakeNeighbor(_way[_way.Count - 1], block);
-                }
-
-                _way.Add(block);
+                item.transform.position = newPosition;
             }
-        }
-
-        private void OnBlockDestroyed(Block block)
-        {
-            block.Destroyed -= OnBlockDestroyed;
-
-            _way.Remove(block);
-            _pool.Put(block);
-
-            Generate();
-        }
-
-        private void MakeNeighbor(Block block1, Block block2)
-        {
-            block2.transform.position = new Vector3(block1.transform.position.x, block1.transform.position.y, block1.transform.position.z + block1.Size);
         }
     }
 }

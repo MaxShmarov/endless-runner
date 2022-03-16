@@ -2,14 +2,16 @@ using EndlessRunner.Common;
 using EndlessRunner.Interfaces;
 using UnityEngine;
 
-namespace EndlessRunner.Blocks
+namespace EndlessRunner.Obstacles
 {
-    public class BlockSystem : MonoBehaviour, ISystem
+    public class ObstacleSystem : MonoBehaviour, ISystem
     {
-        [SerializeField] private BlockFactory _factory;
-        [SerializeField] private int _minimumWaySize;
+        [SerializeField] private ObstacleFactory _factory;
+        [SerializeField] private int _minimumSize;
         [SerializeField] private int _poolCapacity;
         [SerializeField] private float _speed;
+        [SerializeField] private MinMaxValue _offsetByX;
+        [SerializeField] private MinMaxValue _offsetByZ;
 
         private Movement _mover;
 
@@ -17,10 +19,10 @@ namespace EndlessRunner.Blocks
         {
             _factory.Initialize(transform);
 
-            var pool = new BlockPool(_factory);
+            var pool = new ObstaclePool(_factory);
             pool.Initialize(_poolCapacity);
 
-            var generator = new BlocksGenerator(pool, _minimumWaySize);
+            var generator = new ObstacleGenerator(pool, _minimumSize, _offsetByX, _offsetByZ);
             generator.Generate();
 
             _mover = new Movement(transform, _speed);

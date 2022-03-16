@@ -1,9 +1,10 @@
+using EndlessRunner.Interfaces;
 using System;
 using UnityEngine;
 
 namespace EndlessRunner.Blocks
 {
-    public class Block : MonoBehaviour
+    public class Block : MonoBehaviour, IActivable, IDestroyable<Block>
     {
         public event Action<Block> Destroyed;
         public float Size => _size;

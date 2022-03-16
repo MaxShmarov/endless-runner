@@ -1,15 +1,15 @@
 using UnityEngine;
 
-namespace EndlessRunner.Blocks
+namespace EndlessRunner.Common
 {
-    public class BlockMovement
+    public class Movement
     {
         private Transform _transform;
         private float _speed;
 
         public float Modificator { get; private set; }
 
-        public BlockMovement(Transform transform, float speed)
+        public Movement(Transform transform, float speed)
         {
             _transform = transform;
             _speed = speed;
